@@ -1,0 +1,52 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "Malaysia - Poverty (2022)",
+  "width": 800,
+  "height": 720,
+  "layer": [
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/jamierajem/malaysia-map-visualisation/refs/heads/main/malaysia_map_graticule.json",
+        "format": {"type": "topojson", "feature": "my"}
+      },
+      "transform": [
+        {
+          "lookup": "properties.name",
+          "from": {
+            "data": {
+              "url": "https://raw.githubusercontent.com/jamierajem/malaysia-map-visualisation/main/hh_poverty_state.csv",
+              "format": {"type": "csv"},
+              "transform": [
+                {"calculate": "split(datum.date, '/')[2]", "as": "year"},
+                {"filter": "datum.year == '2022'"}
+              ]
+            },
+            "key": "state",
+            "fields": ["poverty_absolute"]
+          }
+        }
+      ],
+      "projection": {"type": "mercator"},
+      "mark": {"type": "geoshape", "stroke": "white"},
+      "encoding": {
+        "color": {
+          "field": "poverty_absolute",
+          "type": "quantitative",
+          "title": "Poverty (absolute)",
+          "scale": {"scheme": "reds"}
+        },
+        "tooltip": [
+          {"field": "properties.name", "title": "State"},
+          {"field": "poverty_absolute", "title": "Poverty (absolute)"}
+        ]
+      }
+    },
+    {
+      "data": {"values": [{}]}, 
+      "transform": [{"graticule": true}],
+      "mark": {"type": "geoshape", "stroke": "gray", "strokeWidth": 0.5},
+      "projection": {"type": "mercator"}
+    }
+  ],
+  "config": {"view": {"stroke": "transparent"}, "background": "white"}
+}
