@@ -1,8 +1,8 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "title": "Malaysia - Poverty (2022)",
-  "width": 800,
-  "height": 720,
+  "title": "Malaysia - Poverty (2022)" ,
+  "width": 1000,
+  "height": 800,
   "layer": [
     {
       "data": {
@@ -42,12 +42,16 @@
       }
     },
     {
-      "data": {"values": [{}]}, 
-      "transform": [{"graticule": true}],
-      "mark": {"type": "geoshape", "stroke": "gray", "strokeWidth": 0.5},
-      "projection": {"type": "mercator"}
+      "data": {
+        "url": "https://raw.githubusercontent.com/jamierajem/malaysia-map-visualisation/refs/heads/main/test_map_new.json",
+        "format": {"type": "topojson", "feature": "graticule"}
+      },
+      "projection": {"type": "mercator"},
+      "mark": {"type": "geoshape", "stroke": "gray", "strokeWidth": 0.5}
     }
   ],
-  "config": {"view": {"stroke": "transparent"}, "background": "white"}
+  "config": {
+    "view": {"stroke": "transparent"},
+    "background": "white"
+  }
 }
-
