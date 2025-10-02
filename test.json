@@ -6,7 +6,7 @@
   "layer": [
     {
       "data": {
-        "url": "https://raw.githubusercontent.com/jamierajem/malaysia-map-visualisation/refs/heads/main/test_map_new.json",
+        "url": "https://raw.githubusercontent.com/jamierajem/malaysia-map-visualisation/refs/heads/main/malaysia_map_graticule.json",
         "format": {"type": "topojson", "feature": "my"}
       },
       "transform": [
@@ -43,7 +43,7 @@
     },
     {
       "data": {
-        "url": "https://raw.githubusercontent.com/jamierajem/malaysia-map-visualisation/refs/heads/main/test_map_new.json",
+        "url": "https://raw.githubusercontent.com/jamierajem/malaysia-map-visualisation/refs/heads/main/malaysia_map_graticule.json",
         "format": {"type": "topojson", "feature": "graticule"}
       },
       "projection": {"type": "mercator"},
@@ -55,3 +55,4 @@
     "background": "white"
   }
 }
+
