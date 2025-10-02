@@ -6,7 +6,7 @@
   "layer": [
     {
       "data": {
-        "url": "https://raw.githubusercontent.com/jamierajem/malaysia-map-visualisation/refs/heads/main/malaysia_map_graticule.json",
+        "url": "https://raw.githubusercontent.com/jamierajem/malaysia-map-visualisation/refs/heads/main/test_map_new.json",
         "format": {"type": "topojson", "feature": "my"}
       },
       "transform": [
@@ -50,3 +50,4 @@
   ],
   "config": {"view": {"stroke": "transparent"}, "background": "white"}
 }
+
