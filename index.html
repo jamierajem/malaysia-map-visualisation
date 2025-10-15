@@ -2,46 +2,188 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Malaysia Poverty Map</title>
+  <title>Malaysia Poverty & Agriculture Dashboard</title>
 
   <!-- Vega & Vega-Lite -->
   <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.17.0"></script>
 
-
   <style>
     body {
-      text-align: center; 
-      /* font-family: Arial, sans-serif; */
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f5f5f5;
+      color: #333;
     }
+
     h1 {
-      margin-bottom: 20px;
+      text-align: center;
+      margin: 0;
+      font-size: 2.2em;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 300;
+      color: #2c3e50;
     }
-    #map_container {
-      display: inline-block; 
-      width: 95vw;   
-      max-width: 1200px; 
-      height: 85vh;  
+
+    .title-card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 30px 20px;
+      box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .dashboard {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 20px 50px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+
+    /* Map as first large card */
+    .map-card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+    }
+
+    .grid-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(550px, 1fr));
+      gap: 30px;
+    }
+
+    /* Make the last chart span the entire row */
+    .grid-cards .viz-card:last-child {
+      grid-column: 1 / -1;
+    }
+
+    .viz-card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .viz-card h2 {
+      margin: 10px 0;
+      font-size: 1.3em;
+      text-align: center;
+    }
+
+    .viz-container {
+      width: 100%;
+      flex: 1 1 auto;
+      min-height: 420px; /* default height for small charts */
+      display: flex;              /* center inner embed */
+      align-items: center;        /* vertical center */
+      justify-content: center;    /* horizontal center */
+      overflow: hidden;           /* prevent overflow spillage */
+    }
+
+    /* Make the map significantly larger */
+    .map-card .viz-container {
+      min-height: 720px;
+    }
+
+    /* Ensure embedded Vega content respects the container and centers */
+    .viz-container > div {
+      width: 100%;
+      max-width: 100%;
+      margin: 0 auto;
+    }
+
+    /* Handle both svg and canvas renderers from Vega */
+    .viz-container svg,
+    .viz-container canvas {
+      max-width: 100% !important;
+      height: auto !important;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .annotation {
+      font-size: 0.9em;
+      color: #666;
+      margin-top: 5px;
+      text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      .viz-container {
+        min-height: 350px;
+      }
     }
   </style>
-
 </head>
 <body>
 
-<h1>Malaysia Poverty Map (2022)</h1>
-<div id="map_container"></div>
+<div class="title-card">
+  <h1>Malaysia Poverty & Agriculture Dashboard</h1>
+</div>
+
+<div class="dashboard">
+  <!-- Large Map -->
+  <div class="map-card">
+    <h2>Poverty (Absolute) by State</h2>
+    <div id="poverty_map" class="viz-container"></div>
+    <div class="annotation">Hover over states for exact poverty rates</div>
+  </div>
+
+  <!-- 2x2 Grid for other charts -->
+  <div class="grid-cards">
+    <div class="viz-card">
+      <h2>Crop Planted Area Composition</h2>
+      <div id="crop_donut" class="viz-container"></div>
+      <div class="annotation">Use dropdown to select state and year</div>
+    </div>
+
+    <div class="viz-card">
+      <h2>Crop Efficiency vs Absolute Poverty</h2>
+      <div id="crop_scatter" class="viz-container"></div>
+      <div class="annotation">Efficiency = production ÷ planted area</div>
+    </div>
+
+    <div class="viz-card">
+      <h2>Absolute Poverty Over Time</h2>
+      <div id="poverty_time" class="viz-container"></div>
+      <div class="annotation">Use brush below to zoom in on specific years</div>
+    </div>
+  </div>
+</div>
 
 <script type="text/javascript">
-  var specUrl = "https://raw.githubusercontent.com/jamierajem/malaysia-map-visualisation/refs/heads/main/test.json";
+  // Embed the choropleth map
+  vegaEmbed(
+    '#poverty_map', 
+    'https://raw.githubusercontent.com/jamierajem/malaysia-map-visualisation/refs/heads/main/test.json',
+    {actions: true}
+  ).then(result => console.log("Poverty map loaded successfully"))
+   .catch(console.error);
 
-  vegaEmbed('#map_container', specUrl, {actions: true})
-    .then(function(result) {
-      console.log("Map loaded successfully");
-    })
-    .catch(console.error);
+  // Array of other visualizations
+  const visualizations = [
+    {id: 'crop_donut', file: 'crop_donut.json'},
+    {id: 'crop_scatter', file: 'crop_scatter.json'},
+    {id: 'poverty_time', file: 'poverty_time.json'}
+  ];
+
+  visualizations.forEach(viz => {
+    const specUrl = `https://raw.githubusercontent.com/jamierajem/malaysia-map-visualisation/refs/heads/main/${viz.file}`;
+    vegaEmbed(`#${viz.id}`, specUrl, {actions: true})
+      .then(result => console.log(`${viz.file} loaded successfully`))
+      .catch(console.error);
+  });
 </script>
 
 </body>
 </html>
-
