@@ -1,0 +1,78 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Crop area composition by crop type and year (planted area).",
+  "data": {
+    "url": "https://raw.githubusercontent.com/jamierajem/malaysia-map-visualisation/refs/heads/main/crops_state_clean.csv",
+    "format": {"type": "csv"}
+  },
+  "params": [
+    {
+      "name": "state_crop_select",
+      "bind": {
+        "input": "select",
+        "options": [
+          "Johor", "Kedah", "Kelantan", "Melaka", "Negeri Sembilan",
+          "Pahang", "Perak", "Perlis", "Pulau Pinang", "Sabah",
+          "Sarawak", "Selangor", "Terengganu", "Kuala Lumpur", "Labuan"
+        ],
+        "name": "Select state: "
+      },
+      "value": "Johor"
+    },
+    {
+      "name": "year_crop_select",
+      "bind": {
+        "input": "select",
+        "options": [
+          "2017-01-01", "2018-01-01", "2019-01-01",
+          "2020-01-01", "2021-01-01", "2022-01-01"
+        ],
+        "name": "Select year: "
+      },
+      "value": "2022-01-01"
+    }
+  ],
+  "transform": [
+    {"filter": "datum.state == state_crop_select"},
+    {"filter": "datum.date == year_crop_select"},
+    {"filter": "datum.state != 'Putrajaya'"},
+    {"filter": "isValid(datum.planted_area)"}
+  ],
+  "layer": [
+    {
+      "mark": {"type": "arc", "innerRadius": 100, "outerRadius": 150},
+      "encoding": {
+        "theta": {"field": "planted_area", "type": "quantitative", "title": "Planted Area (ha)"},
+        "color": {
+          "field": "crop_type",
+          "type": "nominal",
+          "title": "Crop Type",
+          "scale": {"scheme": "category20"}
+        },
+        "tooltip": [
+          {"field": "crop_type", "title": "Crop Type"},
+          {"field": "planted_area", "type": "quantitative", "format": ".1f", "title": "Planted Area (ha)"}
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "text": "Crop Area Composition",
+        "fontSize": 16,
+        "fontWeight": "bold",
+        "color": "black",
+        "align": "center",
+        "baseline": "middle"
+      }
+    }
+  ],
+  "view": {"stroke": null},
+  "width": 320,
+  "height": 320,
+  "title": {
+    "text": "Crop Area Composition by Type",
+    "fontSize": 18,
+    "fontWeight": "bold"
+  }
+}

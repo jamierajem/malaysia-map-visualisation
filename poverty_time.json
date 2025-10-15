@@ -1,0 +1,61 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Absolute poverty rate over time by state with interactive brushing for zoom.",
+  "vconcat": [
+    {
+      "width": 500,
+      "height": 300,
+      "data": {
+        "url": "https://raw.githubusercontent.com/jamierajem/malaysia-map-visualisation/refs/heads/main/hh_poverty_state_clean.csv",
+        "format": {"type": "csv"}
+      },
+      "transform": [{"filter": "datum.state != 'Malaysia'"}],
+      "mark": "line",
+      "encoding": {
+        "x": {
+          "field": "date",
+          "type": "temporal",
+          "scale": {"domain": {"param": "brush"}},
+          "title": "Year"
+        },
+        "y": {
+          "field": "poverty_absolute",
+          "type": "quantitative",
+          "title": "Absolute Poverty Rate (%)"
+        },
+        "color": {"field": "state", "type": "nominal", "title": "State"},
+        "tooltip": [
+          {"field": "state"},
+          {"field": "date"},
+          {"field": "poverty_absolute", "title": "Poverty Rate (%)", "format": ".2f"}
+        ]
+      }
+    },
+    {
+      "width": 500,
+      "height": 60,
+      "data": {
+        "url": "https://raw.githubusercontent.com/jamierajem/malaysia-map-visualisation/refs/heads/main/hh_poverty_state_clean.csv",
+        "format": {"type": "csv"}
+      },
+      "transform": [{"filter": "datum.state != 'Malaysia'"}],
+      "mark": "line",
+      "encoding": {
+        "x": {"field": "date", "type": "temporal"},
+        "y": {
+          "field": "poverty_absolute",
+          "type": "quantitative",
+          "aggregate": "mean",
+          "title": "Mean Poverty Rate"
+        },
+        "color": {"value": "#ccc"}
+      },
+      "params": [
+        {
+          "name": "brush",
+          "select": {"type": "interval", "encodings": ["x"]}
+        }
+      ]
+    }
+  ]
+}

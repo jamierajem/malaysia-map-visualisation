@@ -1,0 +1,72 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Crop efficiency across states by crop type, excluding national aggregates.",
+  "data": {
+    "url": "https://raw.githubusercontent.com/jamierajem/malaysia-map-visualisation/refs/heads/main/crops_state_clean.csv",
+    "format": {"type": "csv"}
+  },
+  "params": [
+    {
+      "name": "crop_filter",
+      "bind": {
+        "input": "select",
+        "options": [
+          "cash_crops", "coconut", "flower", "fruits", "herbs",
+          "industrial_crops", "paddy", "spices", "vegetables"
+        ],
+        "name": "Select crop type: "
+      },
+      "value": "paddy"
+    },
+    {
+      "name": "year_select",
+      "bind": {
+        "input": "select",
+        "options": [
+          "2017-01-01", "2018-01-01", "2019-01-01",
+          "2020-01-01", "2021-01-01", "2022-01-01"
+        ],
+        "name": "Select year: "
+      },
+      "value": "2022-01-01"
+    }
+  ],
+  "transform": [
+    {"filter": "datum.state != 'Malaysia'"},
+    {"filter": "isValid(datum.planted_area) && isValid(datum.production)"},
+    {"filter": "datum.crop_type == crop_filter"},
+    {"filter": "datum.date == year_select"}
+  ],
+  "mark": {"type": "circle", "opacity": 0.85, "size": 100},
+  "encoding": {
+    "x": {
+      "field": "planted_area",
+      "type": "quantitative",
+      "title": "Planted Area (ha)"
+    },
+    "y": {
+      "field": "production",
+      "type": "quantitative",
+      "title": "Production (tons)"
+    },
+    "color": {
+      "field": "state",
+      "type": "nominal",
+      "title": "State",
+      "legend": {"columns": 2}
+    },
+    "tooltip": [
+      {"field": "state", "title": "State"},
+      {"field": "crop_type", "title": "Crop Type"},
+      {"field": "planted_area", "title": "Planted Area (ha)", "format": ".1f"},
+      {"field": "production", "title": "Production (tons)", "format": ".1f"}
+    ]
+  },
+  "width": 450,
+  "height": 300,
+  "title": {
+    "text": "Crop Efficiency by State",
+    "fontSize": 18,
+    "fontWeight": "bold"
+  }
+}
