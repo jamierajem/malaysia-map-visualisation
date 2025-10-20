@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Crop efficiency across states by crop type, excluding national aggregates.",
+  "description": "Interactive scatter plot showing crop efficiency across Malaysian states by crop type and year.",
   "data": {
     "url": "https://raw.githubusercontent.com/jamierajem/malaysia-map-visualisation/refs/heads/main/crops_state_clean.csv",
     "format": {"type": "csv"}
@@ -35,19 +35,30 @@
     {"filter": "datum.state != 'Malaysia'"},
     {"filter": "isValid(datum.planted_area) && isValid(datum.production)"},
     {"filter": "datum.crop_type == crop_filter"},
-    {"filter": "datum.date == year_select"}
+    {"filter": "datum.date == year_select"},
+    {"calculate": "toNumber(datum.planted_area)", "as": "planted_area"},
+    {"calculate": "toNumber(datum.production)", "as": "production"}
   ],
-  "mark": {"type": "circle", "opacity": 0.85, "size": 100},
+  "mark": {
+    "type": "circle",
+    "opacity": 0.85,
+    "size": 180,
+    "stroke": "black",
+    "strokeWidth": 0.5,
+    "tooltip": true
+  },
   "encoding": {
     "x": {
       "field": "planted_area",
       "type": "quantitative",
-      "title": "Planted Area (ha)"
+      "title": "Planted Area (ha)",
+      "scale": {"zero": false}
     },
     "y": {
       "field": "production",
       "type": "quantitative",
-      "title": "Production (tons)"
+      "title": "Production (tons)",
+      "scale": {"zero": false}
     },
     "color": {
       "field": "state",
@@ -62,10 +73,14 @@
       {"field": "production", "title": "Production (tons)", "format": ".1f"}
     ]
   },
-  "width": 450,
-  "height": 300,
+  "width": 480,
+  "height": 320,
+  "config": {
+    "view": {"stroke": "transparent"},
+    "axis": {"labelFontSize": 12, "titleFontSize": 13}
+  },
   "title": {
-    "text": "Crop Efficiency by State",
+    "text": "Crop Efficiency by State and Crop Type",
     "fontSize": 18,
     "fontWeight": "bold"
   }
