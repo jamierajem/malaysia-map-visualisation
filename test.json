@@ -14,7 +14,7 @@
           "lookup": "properties.name",
           "from": {
             "data": {
-              "url": "https://raw.githubusercontent.com/jamierajem/malaysia-map-visualisation/main/hh_poverty_state.csv",
+              "url": "https://raw.githubusercontent.com/jamierajem/malaysia-map-visualisation/refs/heads/main/hh_poverty_state_clean.csv",
               "format": {"type": "csv"}
             },
             "key": "state",
@@ -24,8 +24,8 @@
       ],
       "projection": {
         "type": "mercator",
-        "center": [110, 4],    
-        "scale": 2500     
+        "center": [110, 4],
+        "scale": 2500
       },
       "mark": {"type": "geoshape", "stroke": "white"},
       "encoding": {
@@ -44,8 +44,8 @@
     {
       "data": {
         "graticule": {
-          "step": [2, 2], 
-          "extent": [[90, -10], [125, 10]] 
+          "step": [2, 2],
+          "extent": [[90, -10], [125, 10]]
         }
       },
       "mark": {
