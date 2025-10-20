@@ -1,32 +1,47 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": "Malaysia - Poverty (2022)",
-  "width": 900,
-  "height": 700,
+  "width": 950,
+  "height": 750,
+  "data": {
+    "url": "https://raw.githubusercontent.com/jamierajem/malaysia-map-visualisation/refs/heads/main/malaysia_map_graticule.json",
+    "format": {"type": "topojson", "feature": "my"}
+  },
+  "transform": [
+    {
+      "lookup": "properties.name",
+      "from": {
+        "data": {
+          "url": "https://raw.githubusercontent.com/jamierajem/malaysia-map-visualisation/refs/heads/main/hh_poverty_state_clean.csv",
+          "format": {"type": "csv"}
+        },
+        "key": "state",
+        "fields": ["poverty_absolute"]
+      }
+    },
+    {
+      "calculate": "replace(datum.properties.name, 'W.P. ', '')",
+      "as": "state_norm"
+    },
+    {
+      "lookup": "state_norm",
+      "from": {
+        "data": {
+          "url": "https://raw.githubusercontent.com/jamierajem/malaysia-map-visualisation/refs/heads/main/hh_poverty_state_clean.csv",
+          "format": {"type": "csv"}
+        },
+        "key": "state",
+        "fields": ["poverty_absolute"]
+      }
+    }
+  ],
+  "projection": {
+    "type": "mercator",
+    "center": [110, 4],
+    "scale": 2500
+  },
   "layer": [
     {
-      "data": {
-        "url": "https://raw.githubusercontent.com/jamierajem/malaysia-map-visualisation/refs/heads/main/malaysia_map_graticule.json",
-        "format": {"type": "topojson", "feature": "my"}
-      },
-      "transform": [
-        {
-          "lookup": "properties.name",
-          "from": {
-            "data": {
-              "url": "https://raw.githubusercontent.com/jamierajem/malaysia-map-visualisation/main/hh_poverty_state.csv",
-              "format": {"type": "csv"}
-            },
-            "key": "state",
-            "fields": ["poverty_absolute"]
-          }
-        }
-      ],
-      "projection": {
-        "type": "mercator",
-        "center": [110, 4],     // centers Malaysia roughly
-        "scale": 2500           // zooms in so Malaysia fills the map
-      },
       "mark": {"type": "geoshape", "stroke": "white"},
       "encoding": {
         "color": {
@@ -44,8 +59,8 @@
     {
       "data": {
         "graticule": {
-          "step": [2, 2],  // smaller grid spacing in degrees
-          "extent": [[90, -10], [125, 10]] // covers only Malaysia region
+          "step": [2, 2],
+          "extent": [[90, -10], [125, 10]]
         }
       },
       "mark": {
@@ -53,11 +68,6 @@
         "stroke": "gray",
         "strokeWidth": 0.5,
         "opacity": 0.5
-      },
-      "projection": {
-        "type": "mercator",
-        "center": [110, 4],
-        "scale": 2500
       }
     }
   ],
