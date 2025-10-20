@@ -1,8 +1,8 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": "Malaysia - Poverty (2022)",
-  "width": 900,
-  "height": 700,
+  "width": 950,
+  "height": 750,
   "layer": [
     {
       "data": {
@@ -15,9 +15,16 @@
           "from": {
             "data": {
               "url": "https://raw.githubusercontent.com/jamierajem/malaysia-map-visualisation/refs/heads/main/hh_poverty_state_clean.csv",
-              "format": {"type": "csv"}
+              "format": {"type": "csv"},
+              "transform": [
+                {
+                  "calculate": "replace(datum.state, 'W.P. ', '')",
+                  "as": "state_norm"
+                },
+                {"filter": "datum.date == '2022-01-01'"}
+              ]
             },
-            "key": "state",
+            "key": "state_norm",
             "fields": ["poverty_absolute"]
           }
         }
