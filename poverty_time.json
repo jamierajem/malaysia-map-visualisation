@@ -3,8 +3,8 @@
   "description": "Absolute poverty rate over time by state with interactive brushing for zoom.",
   "vconcat": [
     {
-      "width": 500,
-      "height": 300,
+      "width": 700,
+      "height": 400,
       "data": {
         "url": "https://raw.githubusercontent.com/jamierajem/malaysia-map-visualisation/refs/heads/main/hh_poverty_state_clean.csv",
         "format": {"type": "csv"}
@@ -32,7 +32,7 @@
       }
     },
     {
-      "width": 500,
+      "width": 700,
       "height": 60,
       "data": {
         "url": "https://raw.githubusercontent.com/jamierajem/malaysia-map-visualisation/refs/heads/main/hh_poverty_state_clean.csv",
