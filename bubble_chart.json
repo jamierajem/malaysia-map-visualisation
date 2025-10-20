@@ -4,8 +4,8 @@
   "data": {
     "url": "https://raw.githubusercontent.com/jamierajem/malaysia-map-visualisation/refs/heads/main/merged_poverty_crop_dominant_2022.csv"
   },
-  "width": 700,
-  "height": 450,
+  "width": 1000,
+  "height": 500,
   "layer": [
     {
       "mark": {
