@@ -11,33 +11,53 @@
 
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
       padding: 0;
-      background: #f5f5f5;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
       color: #333;
+      line-height: 1.6;
     }
 
     h1 {
       text-align: center;
       margin: 0;
-      font-size: 2.2em;
-      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 2.5em;
+      font-family: 'Georgia', 'Times New Roman', serif;
       font-weight: 300;
       color: #2c3e50;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
 
     .title-card {
-      background: #fff;
-      border-radius: 10px;
-      padding: 30px 20px;
-      box-shadow: 0 3px 15px rgba(0,0,0,0.1);
-      margin-bottom: 30px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-radius: 0;
+      padding: 40px 20px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
       text-align: center;
     }
 
+    .introduction {
+      background: #fff;
+      border-radius: 10px;
+      padding: 25px 30px;
+      margin: 0 auto 40px auto;
+      max-width: 1000px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+
+    .introduction p {
+      font-size: 1.1em;
+      color: #555;
+      margin: 0;
+      line-height: 1.6;
+    }
+
     .dashboard {
-      max-width: 1400px;
+      max-width: 1600px;
       margin: 0 auto;
       padding: 0 20px 50px;
       display: grid;
@@ -45,64 +65,120 @@
       gap: 30px;
     }
 
-    /* Map as first large card */
+    /* Top row: Map and Donut chart side by side */
+    .top-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+
     .map-card {
       background: #fff;
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
     }
 
-    .grid-cards {
+    .donut-card {
+      background: #fff;
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    /* Scatter plot row - full width */
+    .scatter-row {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(550px, 1fr));
+      grid-template-columns: 1fr;
       gap: 30px;
+      margin-bottom: 30px;
     }
 
-    /* Make the last chart span the entire row */
-    .grid-cards .viz-card:last-child {
-      grid-column: 1 / -1;
+    /* Time series row - full width */
+    .time-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+
+    /* Bottom row: Bubble chart spans full width */
+    .bottom-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 30px;
     }
 
     .viz-card {
       background: #fff;
-      border-radius: 10px;
-      padding: 15px;
-      box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
       display: flex;
       flex-direction: column;
-      align-items: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .viz-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.15);
     }
 
     .viz-card h2 {
-      margin: 10px 0;
-      font-size: 1.3em;
+      margin: 0 0 20px 0;
+      font-size: 1.4em;
       text-align: center;
+      color: #2c3e50;
+      font-weight: 500;
+      border-bottom: 2px solid #e8f4f8;
+      padding-bottom: 10px;
     }
 
     .viz-container {
       width: 100%;
       flex: 1 1 auto;
-      min-height: 420px; /* default height for small charts */
-      display: flex;              /* center inner embed */
-      align-items: center;        /* vertical center */
-      justify-content: center;    /* horizontal center */
-      overflow: hidden;           /* prevent overflow spillage */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
     }
 
-    /* Make the map significantly larger */
+    /* Map container - larger for better visibility */
     .map-card .viz-container {
-      min-height: 720px;
+      min-height: 500px;
     }
 
-    /* Ensure embedded Vega content respects the container and centers */
+    /* Donut chart - compact square */
+    .donut-card .viz-container {
+      min-height: 400px;
+    }
+
+    /* Scatter plot - wider for full width */
+    .scatter-card .viz-container {
+      min-height: 500px;
+    }
+
+    /* Time series - wider for full width */
+    .time-card .viz-container {
+      min-height: 600px;
+    }
+
+    /* Bubble chart - wider for full width */
+    .bubble-card .viz-container {
+      min-height: 600px;
+    }
+
+    /* Ensure embedded Vega content respects the container */
     .viz-container > div {
       width: 100%;
       max-width: 100%;
       margin: 0 auto;
     }
 
-    /* Handle both svg and canvas renderers from Vega */
     .viz-container svg,
     .viz-container canvas {
       max-width: 100% !important;
@@ -111,16 +187,112 @@
       margin: 0 auto;
     }
 
-    .annotation {
-      font-size: 0.9em;
-      color: #666;
-      margin-top: 5px;
+    /* Placeholder text styling */
+    .placeholder-text {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin: 20px 0;
       text-align: center;
+      font-size: 0.95em;
+      font-weight: 500;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
 
-    @media (max-width: 600px) {
+    /* Footer styling */
+    .footer {
+      background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+      color: white;
+      padding: 30px 20px;
+      margin-top: 50px;
+      border-radius: 0;
+      box-shadow: 0 -8px 32px rgba(0,0,0,0.1);
+    }
+
+    .footer-content {
+      max-width: 1600px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .footer-left {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .footer-right {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      text-align: right;
+    }
+
+    .footer-author {
+      font-size: 1.1em;
+      font-weight: 600;
+      color: #ecf0f1;
+    }
+
+    .footer-date {
+      font-size: 0.9em;
+      color: #bdc3c7;
+    }
+
+    .footer-datasets {
+      font-size: 0.9em;
+      color: #ecf0f1;
+      font-weight: 500;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .footer-links a {
+      color: #3498db;
+      text-decoration: none;
+      font-size: 0.85em;
+      transition: color 0.3s ease;
+    }
+
+    .footer-links a:hover {
+      color: #5dade2;
+      text-decoration: underline;
+    }
+
+    /* Responsive design */
+    @media (max-width: 1200px) {
+      .top-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .dashboard {
+        padding: 0 10px 30px;
+      }
+      .viz-card {
+        padding: 15px;
+      }
       .viz-container {
-        min-height: 350px;
+        min-height: 300px;
+      }
+      
+      .footer-content {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .footer-right {
+        text-align: center;
       }
     }
   </style>
@@ -131,35 +303,75 @@
   <h1>Malaysia Poverty & Agriculture Dashboard</h1>
 </div>
 
+<div class="introduction">
+  <p>What drives poverty and crop diversity across Malaysia? Let's explore how geography, economy, and agriculture intertwine.</p>
+</div>
+
 <div class="dashboard">
-  <!-- Large Map -->
-  <div class="map-card">
-    <h2>Poverty (Absolute) by State</h2>
-    <div id="poverty_map" class="viz-container"></div>
-    <div class="annotation">Hover over states for exact poverty rates</div>
+  <!-- Top Row: Map and Donut Chart -->
+  <div class="top-row">
+    <div class="map-card">
+      <h2>Poverty by State (2022)</h2>
+      <div class="placeholder-text">East Malaysia shows higher poverty rates, while economic hubs like Kuala Lumpur and Penang maintain significantly lower poverty levels.</div>
+      <div id="poverty_map" class="viz-container"></div>
+    </div>
+    
+    <div class="donut-card">
+      <h2>Crop Type by State</h2>
+      <div class="placeholder-text">We can now compare crop types by planted area. Interestingly, Kuala Lumpur's cityscape only supports consistent flower cultivation.</div>
+      <div id="crop_donut" class="viz-container"></div>
+    </div>
   </div>
 
-  <!-- 2x2 Grid for other charts -->
-  <div class="grid-cards">
-    <div class="viz-card">
-      <h2>Crop Planted Area Composition</h2>
-      <div id="crop_donut" class="viz-container"></div>
-      <div class="annotation">Use dropdown to select state and year</div>
-    </div>
-
-    <div class="viz-card">
-      <h2>Crop Efficiency vs Absolute Poverty</h2>
+  <!-- Scatter Plot Row -->
+  <div class="scatter-row">
+    <div class="viz-card scatter-card">
+      <h2>Planted Area vs. Production</h2>
+      <div class="placeholder-text">This chart compares crop efficiency across states, revealing how planting scale affects production for each crop type.</div>
       <div id="crop_scatter" class="viz-container"></div>
-      <div class="annotation">Efficiency = production ÷ planted area</div>
     </div>
+  </div>
 
-    <div class="viz-card">
-      <h2>Absolute Poverty Over Time</h2>
+  <!-- Time Series Row -->
+  <div class="time-row">
+    <div class="viz-card time-card">
+      <h2>Poverty Trends Over Time</h2>
+      <div class="placeholder-text">Poverty rose sharply in 2020 with COVID-19, but overall, Malaysia has shown steady improvement in recent years.</div>
       <div id="poverty_time" class="viz-container"></div>
-      <div class="annotation">Use brush below to zoom in on specific years</div>
+    </div>
+  </div>
+
+  <!-- Bottom Row: Bubble Chart -->
+  <div class="bottom-row">
+    <div class="viz-card bubble-card">
+      <h2>Poverty vs. Paddy Production (2022)</h2>
+      <div class="placeholder-text">As poverty increases, paddy cultivation expands — with Kedah leading Malaysia in both planted area and crop production.</div>
+      <div id="bubble_chart" class="viz-container"></div>
     </div>
   </div>
 </div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-left">
+      <div class="footer-author">Jamie Ivranie Rajem</div>
+      <div class="footer-date">15th October 2025</div>
+    </div>
+    
+    <div class="footer-right">
+      <div class="footer-datasets">Datasets:</div>
+      <div class="footer-links">
+        <a href="https://data.gov.my/data-catalogue/crops_state?state=w-p-kuala-lumpur&crop_type=flower&visual=table" target="_blank">
+          Crop Area and Production by State
+        </a>
+        <a href="https://data.gov.my/data-catalogue/hh_inequality_state?state=johor&visual=table" target="_blank">
+          Income Inequality by State
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
 
 <script type="text/javascript">
   // Embed the choropleth map
@@ -174,7 +386,8 @@
   const visualizations = [
     {id: 'crop_donut', file: 'crop_donut.json'},
     {id: 'crop_scatter', file: 'crop_scatter.json'},
-    {id: 'poverty_time', file: 'poverty_time.json'}
+    {id: 'poverty_time', file: 'poverty_time.json'},
+    {id: 'bubble_chart', file: 'bubble_chart.json'}
   ];
 
   visualizations.forEach(viz => {
