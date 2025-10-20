@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Absolute poverty rate over time by state with interactive brushing for zoom.",
+  "description": "Absolute poverty rate over time by state with interactive brushing for zoom and COVID-19 annotation.",
   "vconcat": [
     {
       "width": 700,
@@ -10,26 +10,62 @@
         "format": {"type": "csv"}
       },
       "transform": [{"filter": "datum.state != 'Malaysia'"}],
-      "mark": "line",
-      "encoding": {
-        "x": {
-          "field": "date",
-          "type": "temporal",
-          "scale": {"domain": {"param": "brush"}},
-          "title": "Year"
+      "layer": [
+        {
+          "mark": "line",
+          "encoding": {
+            "x": {
+              "field": "date",
+              "type": "temporal",
+              "scale": {"domain": {"param": "brush"}},
+              "title": "Year"
+            },
+            "y": {
+              "field": "poverty_absolute",
+              "type": "quantitative",
+              "title": "Absolute Poverty Rate (%)"
+            },
+            "color": {"field": "state", "type": "nominal", "title": "State"},
+            "tooltip": [
+              {"field": "state"},
+              {"field": "date"},
+              {"field": "poverty_absolute", "title": "Poverty Rate (%)", "format": ".2f"}
+            ]
+          }
         },
-        "y": {
-          "field": "poverty_absolute",
-          "type": "quantitative",
-          "title": "Absolute Poverty Rate (%)"
+        {
+          "data": {
+            "values": [{"date": "2020-01-01"}]
+          },
+          "mark": {
+            "type": "rule",
+            "color": "black",
+            "strokeDash": [4, 4],
+            "strokeWidth": 2
+          },
+          "encoding": {
+            "x": {"field": "date", "type": "temporal"}
+          }
         },
-        "color": {"field": "state", "type": "nominal", "title": "State"},
-        "tooltip": [
-          {"field": "state"},
-          {"field": "date"},
-          {"field": "poverty_absolute", "title": "Poverty Rate (%)", "format": ".2f"}
-        ]
-      }
+        {
+          "data": {
+            "values": [{"date": "2020-01-01", "label": "COVID-19 pandemic begins"}]
+          },
+          "mark": {
+            "type": "text",
+            "align": "right",
+            "dx": -5,
+            "dy": -150,
+            "fontSize": 13,
+            "fontWeight": "bold",
+            "color": "black"
+          },
+          "encoding": {
+            "x": {"field": "date", "type": "temporal"},
+            "text": {"field": "label"}
+          }
+        }
+      ]
     },
     {
       "width": 700,
