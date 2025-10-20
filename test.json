@@ -69,6 +69,45 @@
         "strokeWidth": 0.5,
         "opacity": 0.5
       }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "longitude": 116.5,
+            "latitude": 6.0,
+            "note": "Sabah has the highest poverty rate (19.7%) in 2022"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "dx": -80,
+        "dy": -5,
+        "fontSize": 14,
+        "fontWeight": "bold",
+        "color": "#4B0082"
+      },
+      "encoding": {
+        "longitude": {"field": "longitude", "type": "quantitative"},
+        "latitude": {"field": "latitude", "type": "quantitative"},
+        "text": {"field": "note"}
+      }
+    },
+    {
+      "data": {
+        "values": [{"longitude": 117.0, "latitude": 5.5}]
+      },
+      "mark": {
+        "type": "point",
+        "color": "#4B0082",
+        "size": 60
+      },
+      "encoding": {
+        "longitude": {"field": "longitude", "type": "quantitative"},
+        "latitude": {"field": "latitude", "type": "quantitative"}
+      }
     }
   ],
   "config": {
