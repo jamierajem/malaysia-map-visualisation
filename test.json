@@ -48,7 +48,7 @@
           "field": "poverty_absolute",
           "type": "quantitative",
           "title": "Poverty (absolute)",
-          "scale": {"scheme": "reds"}
+          "scale": {"scheme": "purples"}
         },
         "tooltip": [
           {"field": "properties.name", "title": "State"},
