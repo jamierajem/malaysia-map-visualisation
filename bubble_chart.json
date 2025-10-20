@@ -1,0 +1,78 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "Poverty vs Crop Production by State and Dominant Crop Type (2022)",
+  "data": {
+    "url": "https://raw.githubusercontent.com/jamierajem/malaysia-map-visualisation/refs/heads/main/merged_poverty_crop_dominant_2022.csv"
+  },
+  "width": 700,
+  "height": 450,
+  "layer": [
+    {
+      "mark": {
+        "type": "circle",
+        "opacity": 0.75,
+        "stroke": "black",
+        "strokeWidth": 0.5
+      },
+      "encoding": {
+        "x": {
+          "field": "poverty_absolute",
+          "type": "quantitative",
+          "title": "Absolute Poverty Rate (%)",
+          "scale": {"zero": false}
+        },
+        "y": {
+          "field": "production",
+          "type": "quantitative",
+          "title": "Crop Production (tonnes)"
+        },
+        "size": {
+          "field": "planted_area",
+          "type": "quantitative",
+          "title": "Planted Area (ha)",
+          "scale": {"range": [200, 3000]}
+        },
+        "color": {
+          "field": "crop_type",
+          "type": "nominal",
+          "title": "Dominant Crop Type",
+          "legend": {"orient": "right"}
+        },
+        "tooltip": [
+          {"field": "state", "type": "nominal", "title": "State"},
+          {"field": "crop_type", "type": "nominal", "title": "Dominant Crop"},
+          {"field": "poverty_absolute", "type": "quantitative", "title": "Poverty (%)"},
+          {"field": "production", "type": "quantitative", "title": "Production (tonnes)"},
+          {"field": "planted_area", "type": "quantitative", "title": "Planted Area (ha)"},
+          {"field": "efficiency", "type": "quantitative", "title": "Efficiency"}
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "dy":0,
+        "fontSize": 11,
+        "fontWeight": "normal"
+      },
+      "encoding": {
+        "x": {"field": "poverty_absolute", "type": "quantitative"},
+        "y": {"field": "production", "type": "quantitative"},
+        "text": {"field": "state", "type": "nominal"},
+        "color": {"value": "black"}
+      }
+    }
+  ],
+  "config": {
+    "background": "white",
+    "axis": {
+      "titleFontSize": 14,
+      "labelFontSize": 12,
+      "grid": true
+    },
+    "legend": {
+      "labelFontSize": 12,
+      "titleFontSize": 13
+    }
+  }
+}
